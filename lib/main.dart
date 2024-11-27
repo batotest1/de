@@ -17,7 +17,6 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
 // SplashScreen Widget
 class SplashScreen extends StatefulWidget {
   @override
@@ -42,12 +41,15 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child:
-            CircularProgressIndicator(), // You can show a loading indicator here
+        child: Image.asset(
+          'assets/2.gif', // Your GIF file
+          fit: BoxFit.cover, // Cover the whole screen with the GIF
+        ),
       ),
     );
   }
 }
+
 
 class RegistrationPage extends StatefulWidget {
   @override
