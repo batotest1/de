@@ -93,27 +93,26 @@ class _RegistrationPageState extends State<RegistrationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-  preferredSize: Size.fromHeight(kToolbarHeight),
-  child: AppBar(
-    flexibleSpace: Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [Colors.blue, Colors.pink], // Blue and pink gradient
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
+        preferredSize: Size.fromHeight(kToolbarHeight),
+        child: AppBar(
+          flexibleSpace: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Colors.blue, Colors.pink], // Blue and pink gradient
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+            ),
+          ),
+          title: Text(
+            "Ro'yxatdan o'tish",
+            style: TextStyle(color: Colors.white),
+          ),
+          centerTitle: true,
+          backgroundColor: Colors.transparent, // Transparent to allow gradient
+          elevation: 0, // No shadow to keep the gradient clean
         ),
       ),
-    ),
-    title: Text(
-      "Ro'yxatdan o'tish",
-      style: TextStyle(color: Colors.white),
-    ),
-    centerTitle: true,
-    backgroundColor: Colors.transparent, // Transparent to allow gradient
-    elevation: 0, // No shadow to keep the gradient clean
-  ),
-),
-
       body: Stack(
         children: [
           // Background GIF
@@ -432,44 +431,49 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildCurrencyCard(Map<String, dynamic> currency) {
-    final rate = double.tryParse(currency['Rate']) ?? 0.0;
-    final change = double.tryParse(currency['Diff']) ?? 0.0;
+    final rate = double.tryParse(currency['Rate'].toString()) ?? 0.0;
+    final change = double.tryParse(currency['Diff'].toString()) ?? 0.0;
     final isPositive = change >= 0;
 
     return GestureDetector(
       onTap: () {
         _showCurrencyDialog(currency, rate);
       },
-      child: Card(
-        margin: EdgeInsets.all(10),
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+                'Yangilangan kun: ${DateTime.now().toLocal().toString().split(' ')[0]}'),
+            Divider(),
+            Center(
+              child: Text(
                 "${currency['CcyNm_UZ']} (${currency['Ccy']})",
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: 8),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "1 ${currency['Ccy']} = $rate UZS",
-                    style: TextStyle(fontSize: 18),
+            ),
+            SizedBox(height: 8),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "1 ${currency['Ccy']}",
+                  style: TextStyle(fontSize: 18),
+                ),
+                Text(
+                  "$rate uzs",
+                ),
+                Text(
+                  "${isPositive ? '+' : ''}${change.toStringAsFixed(2)}",
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: isPositive ? Colors.green : Colors.red,
                   ),
-                  Text(
-                    "${isPositive ? '+' : ''}${change.toStringAsFixed(2)}",
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: isPositive ? Colors.green : Colors.red,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );
@@ -523,7 +527,6 @@ class _HomePageState extends State<HomePage> {
                   },
                   child: Text("Qaytish"),
                 ),
-                // AQSH dollori (UZS to USD conversion)
                 TextButton(
                   onPressed: () {
                     if (isUZS) {
